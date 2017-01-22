@@ -1,0 +1,364 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>政府公开目录---依申请公开</title>
+<link id="indexStyle" href="css/add.css" rel="stylesheet" type="text/css" />
+<script language="javascript" src="../js/com.trs.util/Common.js" type="text/javascript"></script>
+<script language="javascript">
+<!--
+	$import("com.trs.validator.Validator");
+//-->
+</script>
+<script language="javascript" src="applyform_add.js" type="text/javascript"></script>
+<style type="text/css">
+    .personTable td{
+        border-bottom:1px solid silver;
+        border-right:1px solid silver;
+    }
+    .personTable{
+        width:780px;
+    }
+    .tableBorder{
+    }
+    .tableBorder td{
+        padding-left:8px;
+        border-bottom:1px solid silver;
+        border-right:1px solid silver;
+    }
+    .tdBorder, .personTable td{
+        border-bottom:1px solid silver;
+        border-right:1px solid silver;
+    }
+    .personTable td{
+        height:30px;
+    }
+    .personTable .label{
+        text-align:right;
+        padding-right:8px;
+        width:100px;
+        background:F8F8F8;
+    }
+    .personTable .normalText, .personTable  select{
+        margin-left:8px;
+        width:200px;
+        border:1px solid #9AABBB;
+        background-color:#FEFEF1;
+    }
+    textarea{
+        margin-left:8px;
+        width:700px;
+        height:50px;
+        border:1px solid #9AABBB;
+        background-color:#FEFEF1;
+    }
+	table{
+		font-size:14px;
+	}
+	.disableTable .normalText{
+	}
+	.requireStyle{
+		margin-left:4px;
+		color:red;
+	}
+	.RowLabel{
+		width:30px;
+		text-align:center;
+		color:red;
+		font-weight:bold;
+		font-size:14px;
+	}
+</style>
+</HEAD>
+
+<BODY>
+<FORM NAME="frmData" ID="frmData" action="request_dispatch.jsp?url=applyform_add_dowith.jsp" enctype="MULTIPART/FORM-DATA" method="post">
+<div class="container">
+    <div class="header"></div>
+    <div class="rowOfCurrentPosition">当前位置：公开目录 &gt; 依申请公开 &gt; 提交申请</div>
+    <div class="main" style="text-align:center;">
+
+<table border=0 cellspacing=0 cellpadding=0 style="border-left:1px solid silver;border-top:1px solid silver; width:980px;">
+    <tr>
+        <td class="tdBorder RowLabel">申<br>请<br>人<br>信<br>息</td>
+        <td>
+			<table border=0 cellspacing=0 cellpadding=0 style="width:100%;height:100%;">
+				<tr>
+					<td class="tdBorder" style="height:30px;">
+						<input type="radio" name="applyerType" value="1" checked onclick="selectApplyerType(this.value);" id="applyerType_1">
+						<label for="applyerType_1">公民</label>  &nbsp;&nbsp;&nbsp;
+						<input type="radio" name="applyerType" value="2" onclick="selectApplyerType(this.value);" id="applyerType_2">
+						<label for="applyerType_2">法人/其他组织</label>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" id="dataContainer1">
+						<table class="personTable" border=0 cellspacing=0 cellpadding=0 style="width:100%;height:100%;">
+							<tbody>
+								<tr>
+									<td class="label">姓名</td>
+									<td><input class="normalText" type="text" name="applyerName" value="" validation="type:'string',desc:'姓名',required:'',max_len:'100'"><span class="requireStyle">*</span></td>
+									<td class="label">工作单位</td>
+									<td><input class="normalText" type="text" name="department" value="" validation="type:'string',desc:'工作单位',max_len:'200'"></td>
+								</tr>
+								<tr>
+									<td class="label">证件名称</td>
+									<td>
+										<select name="certificateName">
+											<option value="2">身份证</option>
+											<option value="1">学生证</option>
+											<option value="4">军官证</option>
+											<option value="3">工作证</option>
+										</select>
+									</td>
+									<td class="label">证件号码</td>
+									<td><input class="normalText" type="text" name="certificateCode" value="" validation="type:'string',desc:'证件号码',required:'',max_len:'50'"><span class="requireStyle">*</span></td>
+								</tr>
+								<tr>
+									<td class="label">联系电话</td>
+									<td><input class="normalText" type="text" name="telephone" value="" validation="type:'string',desc:'联系电话',required:'',max_len:'50'"><span class="requireStyle">*</span></td>
+									<td class="label">邮政编码</td>
+									<td><input class="normalText" type="text" name="postCode" value="" validation="type:'string',desc:'邮政编码',required:'',max_len:'50'"><span class="requireStyle">*</span></td>
+								</tr>
+								<tr>
+									<td class="label">联系地址</td>
+									<td><input class="normalText" type="text" name="address" value="" validation="type:'string',desc:'联系地址',required:'',max_len:'200'"><span class="requireStyle">*</span></td>
+									<td class="label">传真</td>
+									<td><input class="normalText" type="text" name="fax" value="" validation="type:'string',desc:'传真',max_len:'50'"></td>
+								</tr>
+								<tr>
+									<td class="label">电子邮件</td>
+									<td colspan="3"><input class="normalText" style="width:300px;" type="text" name="email" value="" validation="type:'string',desc:'电子邮件',required:'',max_len:'50'" id="email_1"><span class="requireStyle">*</span></td>
+								</tr>
+								<tr>
+									<td class="label">身份证照片</td>
+									<td colspan="3"><input class="normalText" style="width:300px;" type="file" id="picPath" name="doc" value="" onchange="PreviewImage('Preview',this,120,120);"><span class="requireStyle">*</span><div id="Preview" style="filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale);"></div></td>
+								</tr>
+							</tbody>
+						</table>
+					</td>									
+					<td colspan="2" style="display:none;" id="dataContainer2">
+						<table class="personTable" border=0 cellspacing=0 cellpadding=0 style="width:100%;height:100%;">
+							<tr>
+								<td class="label">名称</td>
+								<td><input class="normalText" type="text" name="applyerName" value="" validation="type:'string',desc:'名称',required:'',max_len:'100'"><span class="requireStyle">*</span></td>
+								<td class="label">组织机构代码</td>
+								<td><input class="normalText" type="text" name="organizeCode" value="" validation="type:'string',desc:'组织机构代码',max_len:'100'"></td>
+							</tr>
+							<tr>
+								<td class="label">法人代表</td>
+								<td><input class="normalText" type="text" name="legalPerson" value="" validation="type:'string',desc:'法人代表',required:'',max_len:'100'"><span class="requireStyle">*</span></td>
+								<td class="label">联系人姓名</td>
+								<td><input class="normalText" type="text" name="associationPerson" value="" validation="type:'string',desc:'联系人姓名',required:'',max_len:'100'"><span class="requireStyle">*</span></td>
+							</tr>
+							<tr>
+								<td class="label">联系人电话</td>
+								<td><input class="normalText" type="text" name="telephone" value="" validation="type:'string',desc:'联系人电话',required:'',max_len:'50'"><span class="requireStyle">*</span></td>
+								<td class="label">传真</td>
+								<td><input class="normalText" type="text" name="fax" value=""  validation="type:'string',desc:'传真',max_len:'50'"></td>
+							</tr>
+							<tr>
+								<td class="label">联系地址</td>
+								<td><input class="normalText" type="text" name="address" value="" validation="type:'string',desc:'联系地址',required:'',max_len:'200'"><span class="requireStyle">*</span></td>
+								<td class="label">电子邮件</td>
+								<td><input class="normalText" type="text" name="email" value="" validation="type:'string',desc:'电子邮件',required:'',max_len:'50'" id="email_2"><span class="requireStyle">*</span></td>
+							</tr>
+						</table>                            
+					</td>
+				</tr>
+			</table>
+        </td>
+    </tr>
+</table>
+<table border=0 cellspacing=0 cellpadding=0 style="border-left:1px solid silver;width:980px;" id="dataContainer3">
+    <tr>
+        <td class="tdBorder RowLabel" rowspan="3">所<br>需<br>信<br>息<br>情<br>况</td>
+		<td> 
+			<table border=0 cellspacing=0 cellpadding=0 style="width:100%;height:100%;" class="personTable">
+				<tr>
+					<td style="background:transparent;" class="label">索引号</td>
+					<td class="tdBorder">
+						<input class="normalText" type="text" name="indexCode" value="" _validation="type:'string',desc:'索引号',required:'',max_len:'50'"><!--span class="requireStyle">*</span-->
+					</td>
+				</tr>
+				<tr>
+					<td style="width:100px;height:130px;text-align:center;" class="tdBorder">所需信息的<br>内容描述</td>
+					<td class="tdBorder">
+						<textarea name="applyDesc" style="height:110px;" validation="type:'string',desc:'所需信息的内容描述',required:'',max_len:'2000'"></textarea><span class="requireStyle">*</span>                    
+					</td>
+				</tr>
+				<tr>
+					<td style="width:100px;height:60px;text-align:center;" class="tdBorder">所需信息的<br>用途</td>
+					<td class="tdBorder">
+						<textarea name="purpose" validation="type:'string',desc:'所需信息的用途',required:'',max_len:'2000'"></textarea><span class="requireStyle">*</span>                    
+					</td>
+				</tr>
+			</table>
+		</td>
+    </tr>
+    <tr>
+        <td>
+            <table border=0 cellspacing=0 cellpadding=0 class="tableBorder" style="width:100%;">
+                <tr style="height:30px;">
+                    <td>所需信息的指定提供方式（可选）</td>
+                    <td>获取信息的方式（可选）</td>
+                </tr>
+                <tr style="font-size:12px;" onclick="clickInfoType();">
+					<td>
+                        <input type="checkbox" value="1" name="pageProviderType"/> 纸面<br>
+                        <input type="checkbox" value="4" name="emailProviderType" checked/> 电子邮件<br>
+                        <input type="checkbox" value="2" name="cdProviderType"/> 光盘<br>
+                        <input type="checkbox" value="8" name="diskProviderType"/> 磁盘<br>
+                    </td>
+                    <td>
+                        <input type="checkbox" value="1" name="postMailGetType"/> 邮寄<br>
+                        <input type="checkbox" value="2" name="quickPostGetType"/> 快递<br>
+                        <input type="checkbox" value="4" name="emailGetType" checked/> 电子邮件<br>
+                        <input type="checkbox" value="8" name="fixMailGetType"/> 传真<br>
+                        <input type="checkbox" value="16" name="bySelfGetType"/> 自行领取<br>    
+                    </td>
+                </tr>
+            </table>        
+        </td>
+    </tr>
+	<tr>
+        <td>
+            <table border=0 cellspacing=0 cellpadding=0 class="tableBorder" style="width:100%;">
+                <tr style="height:30px;">
+                    <td>选择所需信息的机关单位</td>
+                </tr>
+                <tr style="font-size:12px;" onclick="clickInfoType();">
+					<td style="padding:4px;">
+						<table width="100%" border=0 cellspacing=0 cellpadding=0 style="font-size:12px;">
+						<tr>
+						<td style="border:0;height:26px;">
+                        <input type="radio" value="省政府办公厅" name="DestDpt" id="DestDpt_0" checked/><label for="DestDpt_0">未知</label>
+						</td>
+						<script>
+							var nRowNo = 7;
+							var arrDepts = [
+								["省政府办公厅","省政府办公厅"],
+								["省发展改革委","省发展改革委"],
+								["省经委","省经委"],
+								["省民委","省民委"],
+								["省人口计生委","省人口计生委"],
+								["省国资委","省国资委"],
+								["省教育厅","省教育厅"],
+								["省科技厅","省科技厅"],
+								["省国安厅","省国安厅"],
+								["省公安厅","省公安厅"],
+								["省监察厅","省监察厅"],
+								["省民政厅","省民政厅"],
+								["省司法厅","省司法厅"],
+								["省财政厅","省财政厅"],
+								["省人事厅","省人事厅"],
+								["省劳动保障厅","省劳动保障厅"],
+								["省国土资源厅","省国土资源厅"],
+								["省建设厅","省建设厅"],
+								["省交通厅","省交通厅"],
+								["省信息产业厅","省信息产业厅"],
+								["省水利厅","省水利厅"],
+								["省农业厅","省农业厅"],
+								["省林业厅","省林业厅"],
+								["省商务厅","省商务厅"],
+								["省文化厅","省文化厅"],
+								["省卫生厅","省卫生厅"],
+								["省审计厅","省审计厅"],
+								["省地税局","省地税局"],
+								["省环保局","省环保局"],
+								["省广电局","省广电局"],
+								["省体育局","省体育局"],
+								["省统计局","省统计局"],
+								["省工商局","省工商局"],
+								["省新闻出版局","省新闻出版局"],
+								["省质监局","省质监局"],
+								["省食品药监局","省食品药监局"],
+								["省旅游局","省旅游局"],
+								["省宗教局","省宗教局"],
+								["省机关事务管理局","省机关事务管理局"],
+								["省粮食局","省粮食局"],
+								["省物价局","省物价局"],
+								["省档案局","省档案局"],
+								["省农机局","省农机局"],
+								["省乡镇企业局","省乡镇企业局"],
+								["省畜牧食品局","省畜牧食品局"],
+								["省知识产权局","省知识产权局"],
+								["省招商引资局","省招商引资局"],
+								["省国税局","省国税局"],
+								["省地震局","省地震局"],
+								["省气象局","省气象局"],
+								["省安监局","省安监局"],
+								["省测绘局","省测绘局"],
+								["省煤田地质局","省煤田地质局"],
+								["省冶金局","省冶金局"],
+								["省盐务局","省盐务局"],
+								["省黄金局","省黄金局"],
+								["省通信管理局","省通信管理局"],
+								["省邮政管理局","省邮政管理局"],
+								["省地矿局","省地矿局"],
+								["省核工业地质局","省核工业地质局"],
+								["省中医药管理局","省中医药管理局"],
+								["省烟草专卖局","省烟草专卖局"],
+								["省政府法制办","省政府法制办"],
+								["省外办","省外办"],
+								["省国防科工办","省国防科工办"],
+								["省侨办","省侨办"],
+								["省移民办","省移民办"],
+								["省扶贫开发办","省扶贫开发办"],
+								["省人防办","省人防办"],
+								["省志编办","省志编办"],
+								["省信访办","省信访办"],
+								["省社科院","省社科院"],
+								["省农科院","省农科院"],
+								["省供销社","省供销社"],
+								["省银监局","省银监局"],
+								["省证监局","省证监局"],
+								["省保监局","省保监局"],
+								["省政务服务中心","省政务服务中心"]
+							];
+							for(var i=1;i<=arrDepts.length;i++){
+								if(i%nRowNo==0){
+									document.write('</tr><tr>');
+								}
+								document.write('<td style="border:0;height:26px;"><input type="radio" value="' + 
+								arrDepts[i-1][0] + '" name="DestDpt" id="DestDpt_' + i + 
+								'"/><label for="DestDpt_' + i + '">' + 
+								arrDepts[i-1][1] + '</label></td>');
+							}
+							if((arrDepts.length+1)%nRowNo!=0){
+								document.write('<td cols="' +
+								((arrDepts.length+1)%nRowNo) + '" style="border:0;height:24px;"></td>');
+							}
+						</script>
+						</tr>
+						</table>
+                    </td>
+                </tr>
+            </table>        
+        </td>
+    </tr>
+</table>
+    
+    <div class="verifyCode" style="text-align:left;padding-left:2px;">
+        输入图片中的字符：
+        <input type="text" name="rand" value="" style="border:1px solid silver;width:60px;">
+        请输入验证码 <img src="../verifycode" border=0 alt="" id="verifycodeImg"> 
+        <a href="" onclick="getNextVerifyCode();">看不清？换一张</a>         
+    </div>
+    <div style="margin-top:10px;">
+        <button onclick="submitData();">提&nbsp;&nbsp;交&nbsp;&nbsp;申&nbsp;&nbsp;请</button>
+        &nbsp;&nbsp;&nbsp;<button onclick="window.history.back();">返&nbsp;&nbsp;&nbsp;回</button>
+    </div>
+    </div>
+    <div class="footer">
+        <div class="footerLine"></div>
+        <div>关于本站&nbsp;-&nbsp;使用帮助&nbsp;-&nbsp;联系我们</div>
+        <div>技术支持：北京拓尔思信息技术股份有限公司</div>
+        <div>Copyright&copy;2005-2008 All Rights Reserved 版权所有，未经授权，禁止转载</div>
+        <div>ICP备案编号：京ICP备010164号</div>
+        <div>建议使用IE5.5以上浏览器，分辨率1024*768</div>
+    </div>
+</div>
+
+</FORM>
+</BODY>
+</HTML>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>交通票统计</title>
+</head>
+
+<script type="text/javascript" language="javascript">
+/*
+*读文件，并返回一数组
+*/
+function readFile(filename){
+  var fso = new ActiveXObject("Scripting.FileSystemObject");
+  var f = fso.OpenTextFile(filename,1);
+  var s = new Array();
+  var i = 0;
+  while(!f.AtEndOfStream){
+    s[i] = f.ReadLine();
+    i++;}
+  f.Close();
+  return s;
+}
+/*
+*读取处理，对读取文件返回的数据进行加工处理
+*/
+function readnum_calc(a){
+  var b = readFile(a);
+  for(var i=0;i<b.length;i++){
+    temp = b[i].split("===");
+    document.write(temp[0]+':<input type="text" id="in'+i+'" name="in'+i+'"/><br>');
+  }
+}
+
+/*
+*写入处理，对写入文件的数据进行加工处理，并写入文件
+*/
+function writenum_calc(filename,filecontent){
+  writeFile(filename,filecontent);
+}
+//写文件
+function writeFile(filename,filecontent){
+  var fso, f, s;
+  fso = new ActiveXObject("Scripting.FileSystemObject");
+  f = fso.OpenTextFile(filename,2,true);
+  f.WriteLine(filecontent);
+  f.Close();
+  alert("write ok");
+}
+</script>
+
+<body>
+ <!--<input type="text" id="in" name="in"/>
+ <input type="button" value="Write!" onclick="writeFile('12.txt',document.getElementById('in').name+'==='+document.getElementById('in').value);"/>
+-->
+<script>document.write(readnum_calc('12.txt'));</script>
+<!--
+ <input type="button" value="Read!" onclick="document.getElementById('show').value=readFile('12.txt');" />
+
+ <textarea id="show" name="show" cols="50" rows="8"></textarea>-->
+</body>
+
+</html>

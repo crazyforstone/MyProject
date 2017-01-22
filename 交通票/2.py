@@ -1,49 +1,47 @@
-#_*_coding:GBK_*_
+#_*_coding:UTF-8_*_
 
 
 tup_confirm = ('y','Y','')
 """
 data_input(flag):
-Ö÷Òª´¦ÀíÊı¾İÂ¼Èë
-²ÎÊı×÷ÓÃÅĞ¶ÏÊÇ·ñ¿ªÊ¼Ö´ĞĞ¸Ã·½·¨
+ä¸»è¦å¤„ç†æ•°æ®å½•å…¥
+å‚æ•°ä½œç”¨åˆ¤æ–­æ˜¯å¦å¼€å§‹æ‰§è¡Œè¯¥æ–¹æ³•
 """
 def data_input(flag):
     f = open('123.txt','a')
     while(flag in tup_confirm):
-        name = raw_input("ĞÕÃû:\n")
-        money = raw_input("Æ±¶î:\n")
-        print("ÄãÊäÈëµÄÊÇ:\nĞÕÃû:" + name + " $Æ±¶î:" + money)
-        flag_confirm = raw_input("È·ÈÏÊäÈë?\n")
+        name = raw_input("å§“å:\n")
+        money = raw_input("ç¥¨é¢:\n")
+        print("ä½ è¾“å…¥çš„æ˜¯:\nå§“å:" + name + " $ç¥¨é¢:" + money)
+        flag_confirm = raw_input("ç¡®è®¤è¾“å…¥?\n")
         if flag_confirm in tup_confirm:
             f.write(name + '$' + money + '\n')
         else:
-            flag_confirm = raw_input("ÊÇ·ñÖØĞÂÊäÈë?\n")
+            flag_confirm = raw_input("æ˜¯å¦é‡æ–°è¾“å…¥?\n")
             if flag_confirm in tup_confirm:
-                print("ÒÑ¼ÇÂ¼¡£\n")
+                print("å·²è®°å½•ã€‚\n")
                 continue
             else:
                 break
-        flag = raw_input("ÊÇ·ñ¼ÌĞøÊäÈë?\n")
-    print("ÒÑ´æµµ¡£\n")
+        flag = raw_input("æ˜¯å¦ç»§ç»­è¾“å…¥?\n")
+    print("å·²å­˜æ¡£ã€‚\n")
     f.close()
 
 
 """
 main
-³ÌĞòÖ÷Á÷³Ì
+ç¨‹åºä¸»æµç¨‹
 """
 
-#flag = raw_input("¿ªÊ¼ÊäÈë?\n")#flag±ê¼ÇÒªÖ´ĞĞµÄº¯Êı×´Ì¬
+flag = raw_input("å¼€å§‹è¾“å…¥?\n")
 #data_input(flag)
 f = open('123.txt','a+')
-txt_in = f.read()
-print("txt_in=====\n"+str(txt_in)+"\ntxt_in=====\n")
-f.seek(txt_in.find("!@#$%^&*()")+14)#¶¨Î»·Ö¸ô·ûµÄĞĞ
-print("tell=====")
-print(f.tell())#·µ»ØÖ¸ÕëÎ»ÖÃ
-print("tell=====")
+c = f.read()
+print("1."+str(c))
+f.seek(c.find("!@#$%^&*()")+14)
+print(f.tell())
 c = f.readlines()
-print("C====="+str(c))
+print("2."+str(c))
 
 
 #a = f.readline()

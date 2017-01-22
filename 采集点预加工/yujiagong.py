@@ -9,7 +9,7 @@ ziduan = ['"123";',#-0-起始点名称
 '"";',#-2-频道名称
 '"";',#-3-所属分类
 '1182;',#-4-起始频道编号
-'1;',#-5-是否为社区论坛站点
+'0;',#-5-是否为社区论坛站点
 '0;',#-6-是否选择RSS站点
 '0;',#-7-是否使用源码脚本
 '2;',#-8-扩展策略，默认按域扩展
@@ -88,15 +88,15 @@ ziduan = ['"123";',#-0-起始点名称
 '1;',#-81-站点优先级
 '""'];#-82-点的域值
 
-pattern = re.compile(r'(.*?)\thttp://(.*?)\t',re.I)#正则表达式
+pattern = re.compile(r'(.*?)\thttp://(.*?)\n',re.I)#正则表达式
 fileout = open("out.txt","a")#打开输出文件
 filein = open("test.txt","r")#打开输入文件
 
-print 'loading...'
+print ('loading...')
 for line in filein:
     matche = pattern.match(line)#对每行文字进行匹配
     if matche:
-        #print matche.group(1)+"#"+matche.group(2);
+        #print (matche.group(1)+"====="+matche.group(2))
         #temp = matche.group(1)+"#-"+str(i)+"-"+matche.group(2)+"\n";
         #fileout.write(temp);
         rec = '"'+matche.group(2)+'";"'+matche.group(1)+'";'#拼接起始点与网站名称
@@ -105,8 +105,12 @@ for line in filein:
                 continue
             rec = rec + ziduan[i]#拼接剩余字段
         rec = rec + '\n'#换行结尾
+        print("rec==="+rec)
         fileout.write(rec)#写入输出文件
-print 'Mission accomplished !'
+    else:
+        print("未匹配内容，请检查正则表达式。")
+if fileout.flush():#刷新缓冲区
+    print ('Mission accomplished !')
 if filein.close:#关闭输入文件
     print("close filein")
 if fileout.close:#关闭输出文件

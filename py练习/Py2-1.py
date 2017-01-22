@@ -1,0 +1,2 @@
+name = "sssddd"
+print(name)
