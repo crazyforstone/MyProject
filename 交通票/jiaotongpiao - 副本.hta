@@ -7,57 +7,106 @@
 </head>
 
 <script type="text/javascript" language="javascript">
-/*
-*读文件，并返回一数组
-*/
-function readFile(filename){
-  var fso = new ActiveXObject("Scripting.FileSystemObject");
-  var f = fso.OpenTextFile(filename,1);
-  var s = new Array();
-  var i = 0;
-  while(!f.AtEndOfStream){
-    s[i] = f.ReadLine();
-    i++;}
-  f.Close();
-  return s;
-}
-/*
-*读取处理，对读取文件返回的数据进行加工处理
-*/
-function readnum_calc(a){
-  var b = readFile(a);
-  for(var i=0;i<b.length;i++){
-    temp = b[i].split("===");
-    document.write(temp[0]+':<input type="text" id="in'+i+'" name="in'+i+'"/><br>');
-  }
-}
+    /*
+     *构建对象
+     */
+    function person() {
+        var name = ""; //姓名
+        var money = 0; //交钱总数
+        var add_money = 0; //每次交款数
+        var time = ""; //最后一次交钱时间
+    }
 
-/*
-*写入处理，对写入文件的数据进行加工处理，并写入文件
-*/
-function writenum_calc(filename,filecontent){
-  writeFile(filename,filecontent);
-}
-//写文件
-function writeFile(filename,filecontent){
-  var fso, f, s;
-  fso = new ActiveXObject("Scripting.FileSystemObject");
-  f = fso.OpenTextFile(filename,2,true);
-  f.WriteLine(filecontent);
-  f.Close();
-  alert("write ok");
-}
+    /*
+     *读文件
+     *文件内容格式：
+     *name:money:add_money:time
+     *返回一对象数组
+     */
+    function readFile(filename) {
+        var fso = new ActiveXObject("Scripting.FileSystemObject");
+        var f = fso.OpenTextFile(filename, 1);
+        var s = new Array();
+        var i = 0;
+        while (!f.AtEndOfStream) {
+            //s[i] = f.ReadLine();
+            s[i] = new person();
+            var temp = f.ReadLine().split(":");
+            s[i].name = temp[0];
+            s[i].money = parseInt(temp[1]);
+            s[i].add_money = parseInt(temp[2]);
+            s[i].time = temp[3];
+            i++;
+        }
+        f.Close();
+        return s;
+    }
+    /*
+     *数据展示
+     */
+    function readnum_show(a) {
+        var date = new Date();
+        document.write('<table><tr><td>姓名:</td><td>交款总额:</td><td>上交金额:</td><td>上交时间</td></tr>');
+        for (var i = 0; i < a.length; i++) {
+            if (a[i] != undefined) {
+                document.write('<tr><td>'+a[i].name + ':</td><td>￥' + a[i].money + ':</td><td><input type="text" id="in_' + i + '" name="' + a[i].name + '"/></td><td><input type="button" id="bu_' + i + '" value="' + date.toLocaleDateString() +
+                    '" onclick="calc(document.getElementById(\'in_' + i + '\').name,parseInt(document.getElementById(\'in_' + i + '\').value),document.getElementById(\'bu_' + i + '\').value);"/></td></tr>');
+            }
+        }
+        document.write('<tr><input type="button" value="保存" onclick="writeFile(\'12.txt\');"/></tr></table>');
+    }
+    /*
+     *数据处理
+     */
+    function calc(name, add_money, time) {
+        for (var i = 0; i < Global_s.length; i++) {
+            if (Global_s[i].name == name) {
+                Global_s[i].money = Global_s[i].money + add_money;
+                Global_s[i].add_money = add_money;
+                Global_s[i].time = time;
+                alert("数据更新,请保存");
+            }
+        }
+    }
+
+    /*
+     *写文件
+     *文件内容格式：
+     *name:money:add_money:time
+     *返回一对象数组
+     */
+    function writeFile(filename) {
+        var fso, f;
+        var s = "";
+        fso = new ActiveXObject("Scripting.FileSystemObject");
+        f = fso.OpenTextFile(filename, 2, true);
+        for (var i = 0; i < Global_s.length; i++) {
+            s = Global_s[i].name + ':' + Global_s[i].money + ':' + Global_s[i].add_money + ':' + Global_s[i].time;
+            f.WriteLine(s);
+        }
+        if(f.Close()!=0){
+          alert("写入成功");
+          location.reload();
+        }
+    }
+    /*
+    *统计缴费情况
+    */
+    function count(){
+      var fso,f;
+      fso = new ActiveXObject("Scripting.FileSystemObject");
+      f = fso.OpenTextFile('',8,true);
+      f.Close();
+    }
+
+
 </script>
 
 <body>
- <!--<input type="text" id="in" name="in"/>
- <input type="button" value="Write!" onclick="writeFile('12.txt',document.getElementById('in').name+'==='+document.getElementById('in').value);"/>
--->
-<script>document.write(readnum_calc('12.txt'));</script>
-<!--
- <input type="button" value="Read!" onclick="document.getElementById('show').value=readFile('12.txt');" />
-
- <textarea id="show" name="show" cols="50" rows="8"></textarea>-->
+    <script>
+        var Global_s = readFile('12.txt');
+        readnum_show(Global_s);
+    </script>
 </body>
 
 </html>
