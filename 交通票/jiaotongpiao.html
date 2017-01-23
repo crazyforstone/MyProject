@@ -96,7 +96,9 @@
       var fso,f;
       fso = new ActiveXObject("Scripting.FileSystemObject");
       f = fso.OpenTextFile('count.txt',2,true);
-      
+      if(!f.AtEndOfStream){
+        var temp = f.ReadLine().split(":");
+      }
       f.Close();
     }
 
