@@ -90,7 +90,7 @@ ziduan = ['"123";',#-0-起始点名称
 
 pattern = re.compile(r'(.*?)\thttp://(.*?)\n',re.I)#正则表达式
 fileout = open("out.txt","a")#打开输出文件
-filein = open("test.txt","r")#打开输入文件
+filein = open("in.txt","r")#打开输入文件
 
 print ('loading...')
 for line in filein:
