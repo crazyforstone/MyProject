@@ -1,19 +1,36 @@
-function TRS_Document_Source(urlname, urltitle, content) {
-    if (urlname.indexOf('getNoticeList4Web.do') != -1) {
-        eval('var c=' + content + ';');
-        var source = '<html><body>';
-        for (var i in c.rows) {
-            source += '<a href="http://www.ccgp-hunan.gov.cn/portal/protalAction!viewNoticeContent.action?noticeId=' + c.rows[i].NOTICE_ID + '&area_id=">' + c.rows[i].NOTICE_TITLE + '</a>';
-        }
-        return source + '</body></html>';
-    } else {
-        var begin = content.indexOf('<body>');
-        content = content.subString(begin);
-        var source = '<html>';
-        source += '<div class="title">' + urltitle + '</div>';
-        source += '<div class="content">';
-        source += content;
-        source += '</div>' + begin + '</html>';
-        return source;
-    }
+var uniqueInteger = (function () {
+    var counter = 0;
+    console.log("外"+counter);
+    return function () {
+        console.log("内"+counter)
+        return counter++;
+    };
+}());
+
+uniqueInteger();
+console.log("=====1=====");
+uniqueInteger();
+console.log("=====2=====");
+uniqueInteger();
+console.log("=====3=====");
+uniqueInteger();
+console.log("=====4=====");
+uniqueInteger();
+console.log("=====5=====");
+
+function counter(){
+    var a = 0;
+    return {
+        count:function(){return a++;},
+        reset:function(){return a = 0;}
+    };
 }
+
+var c = counter(), d = counter();
+console.log(c.count());
+console.log(d.count());
+console.log(c.count());
+console.log(d.count());
+console.log(c.reset());
+console.log(c.count());
+console.log(d.count());
