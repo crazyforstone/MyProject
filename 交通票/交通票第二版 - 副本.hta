@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>交通票统计</title>
+</head>
+
+<script type="text/javascript" language="javascript">
+    /*
+     *构建对象
+     */
+    function person() {
+        var name = ""; //姓名
+        var money = 0; //总金额
+        var remainder = 0; //余额
+        var time = ""; //入职时间
+        function clac(name,add_money,count_time){
+            if(this.name == name){
+                this.money = this.money +add_money;
+            }
+        }
+    }
+    /*
+     *读文件
+     *文件内容格式：
+     *name:money:remainder:time
+     *姓名：总金额：余额：入职时间
+     *返回一对象数组
+     */
+    function readFile(filename) {
+        var fso = new ActiveXObject("Scripting.FileSystemObject");
+        var f = fso.OpenTextFile(filename, 1);
+        var s = new Array();
+        var i = 0;
+        while (!f.AtEndOfStream) {
+            //s[i] = f.ReadLine();
+            s[i] = new person();
+            var temp = f.ReadLine().split(":");
+            s[i].name = temp[0];//初始化人名
+            if (!temp[1]) {//初始化总金额
+                s[i].money = 0;
+            } else {
+                s[i].money = parseInt(temp[1]);
+            };
+            if (!temp[2]) {//初始化余额
+                s[i].remainder = 0;
+            } else {
+                s[i].remainder = parseInt(temp[2]);
+            };
+            if (!temp[3]) {//初始化入职时间
+                s[i].time = "";
+            } else {
+                s[i].time = temp[3];
+            };
+            i++;
+        }
+        f.Close();
+        return s;
+    }
+    /*
+     *写文件
+     *文件内容格式：
+     *name:money:remainder:time
+     *返回一对象数组
+     */
+    function writeFile(filename) {
+        var fso, f;
+        var str = "";
+        fso = new ActiveXObject("Scripting.FileSystemObject");
+        f = fso.OpenTextFile(filename, 2, true);
+        for (var i = 0; i < Global_s.length; i++) {
+            str = Global_s[i].name + ':' + Global_s[i].money + ':' + Global_s[i].remainder + ':' + Global_s[i].time;
+            f.WriteLine(str);
+        }
+        if (f.Close() != 0) {
+            alert("更新成功");
+            location.reload();
+        }
+    }
+    /*
+     *数据展示
+     */
+    function readnumShow(a) {
+        var date = new Date();
+        document.write('<table><tr><td>姓名:</td><td>交款总额:</td><td>上交金额:</td><td>上交时间:</td><td>更新数据:</td></tr>');
+        for (var i = 0; i < a.length; i++) {
+            if (a[i] != undefined) {
+                document.write(
+                    '<tr><td>' + a[i].name +
+                    ':</td><td>￥' + a[i].money +
+                    ':</td><td><input type="text" id="in_' + i +
+                    '" name="' + a[i].name +
+                    '"/></td>');
+            }
+        }
+        document.write('<tr><td><input type="button" value="保存" onclick="saveData(Global_s)"/></td>');
+        //document.write('<td><input type="button" value="统计" onclick="count();"/></td></tr></table>');
+    }
+    
+    /*
+    *预存储数据
+    */
+    function saveData(a){
+        var date = new Date();
+        for(var i = 0; i<a.length;i++){
+            if(a[i]!=undefined){
+                a[i].clac(document.getElementById('in_'+i).name,parseInt(document.getElementById('in_'+i).value),date.toLocaleDateString());
+            }
+        }
+        alert("预存储");
+    }
+
+
+</script>
+
+<body>
+    <script>
+        var Global_s = readFile('jiaotongpiaotongji.txt');
+        readnumShow(Global_s);
+    </script>
+</body>
+
+</html>
