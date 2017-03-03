@@ -13,8 +13,9 @@
     function person() {
         var name = ""; //姓名
         var money = 0; //交钱总数
-        var add_money = 0; //每次交款数
+        var add_money = 0; //最后一次交款数
         var time = ""; //最后一次交钱时间
+        var count_time = ""; //统计日期标记
     }
 
     /*
@@ -33,9 +34,26 @@
             s[i] = new person();
             var temp = f.ReadLine().split(":");
             s[i].name = temp[0];
-            s[i].money = parseInt(temp[1]);
-            s[i].add_money = parseInt(temp[2]);
-            s[i].time = temp[3];
+            if (!temp[1]) {
+                s[i].money = 0;
+            } else {
+                s[i].money = parseInt(temp[1]);
+            };
+            if (!temp[2]) {
+                s[i].add_money = 0;
+            } else {
+                s[i].add_money = parseInt(temp[2]);
+            };
+            if (!temp[3]) {
+                s[i].time = "";
+            } else {
+                s[i].time = temp[3];
+            };
+            if (!temp[4]) {
+                s[i].count_time = "";
+            } else {
+                s[i].count_time = temp[4];
+            };
             i++;
         }
         f.Close();
@@ -46,29 +64,86 @@
      */
     function readnum_show(a) {
         var date = new Date();
-        document.write('<table><tr><td>姓名:</td><td>交款总额:</td><td>上交金额:</td><td>上交时间</td></tr>');
+        document.write('<table><tr><td>姓名:</td><td>交款总额:</td><td>上交金额:</td><td>上交时间:</td><td>更新数据:</td></tr>');
         for (var i = 0; i < a.length; i++) {
             if (a[i] != undefined) {
-                document.write('<tr><td>'+a[i].name + ':</td><td>￥' + a[i].money + ':</td><td><input type="text" id="in_' + i + '" name="' + a[i].name + '"/></td><td><input type="button" id="bu_' + i + '" value="' + date.toLocaleDateString() +
-                    '" onclick="calc(document.getElementById(\'in_' + i + '\').name,parseInt(document.getElementById(\'in_' + i + '\').value),document.getElementById(\'bu_' + i + '\').value);"/></td></tr>');
+                document.write(
+                    '<tr><td>' + a[i].name +
+                    ':</td><td>￥' + a[i].money +
+                    ':</td><td><input type="text" id="in_' + i +
+                    '" name="' + a[i].name +
+                    '"/></td><td>' + a[i].time +
+                    '</td><td><input type="button" id="bu_' + i +
+                    '" value="录入数据" onclick="calc(document.getElementById(\'in_' + i + '\').name,parseInt(document.getElementById(\'in_' + i +
+                    '\').value),\'' + date.toLocaleDateString() +
+                    '\');"/></td></tr>');
             }
         }
-        document.write('<tr><input type="button" value="保存" onclick="writeFile(\'12.txt\');"/></tr></table>');
+        //document.write('<tr><td><input type="button" value="保存" onclick="writeFile(\'jiaotongpiaotongji.txt\');"/></td>');
+        document.write('<td><input type="button" value="统计" onclick="count();"/></td></tr></table>');
     }
     /*
-     *数据处理
+     *数据预存储
      */
     function calc(name, add_money, time) {
         for (var i = 0; i < Global_s.length; i++) {
             if (Global_s[i].name == name) {
+                if (!add_money) {
+                    add_money = 0;
+                }
                 Global_s[i].money = Global_s[i].money + add_money;
                 Global_s[i].add_money = add_money;
                 Global_s[i].time = time;
-                alert("数据更新,请保存");
+                writeFile('jiaotongpiaotongji.txt');
             }
         }
     }
+    /*
+     *数据统计
+     */
+    function count() {
+        date = new Date();
+        var s = "";
+        for (var i = 0; i < Global_s.length; i++) {
+            var temp = Global_s[i].count_time.split("/");
+            var now_year = parseInt(date.getFullYear());
+            var now_month = parseInt(date.getMonth() + 1);
+            if (!temp[0]) {
+                last_year = now_year;
+            } else {
+                var last_year = parseInt(temp[0]);
+            };
+            if (!temp[1]) {
+                last_month = now_month
+            } else {
+                var last_month = parseInt(temp[1]);
+            };
+            if (temp_year = now_year - last_year) {
+                if (temp_month = now_month - last_month + temp_year * 12) {
+                    Global_s[i].money = Global_s[i].money - 300 * temp_month;
+                    Global_s[i].count_time = now_year + '/' + now_month;
+                }
+            } else {
+                if (temp_month = now_month - last_month) {
+                    Global_s[i].money = Global_s[i].money - 300 * temp_month;
+                    Global_s[i].count_time = now_year + '/' + now_month;
+                }else{
+                  Global_s[i].money = Global_s[i].money;
+                  Global_s[i].count_time = now_year +'/'+now_month;
+                }
+            }
+            if (Global_s[i].money < 0) {
+                s += Global_s[i].name + "需交" + Math.abs(Global_s[i].money) + "\n";
+            }
+        }
+        if (s) {
+            alert(s);
+        } else {
+            alert("无人欠费。")
+        }
+        writeFile('jiaotongpiaotongji.txt');
 
+    }
     /*
      *写文件
      *文件内容格式：
@@ -81,30 +156,22 @@
         fso = new ActiveXObject("Scripting.FileSystemObject");
         f = fso.OpenTextFile(filename, 2, true);
         for (var i = 0; i < Global_s.length; i++) {
-            s = Global_s[i].name + ':' + Global_s[i].money + ':' + Global_s[i].add_money + ':' + Global_s[i].time;
+            s = Global_s[i].name + ':' + Global_s[i].money + ':' + Global_s[i].add_money + ':' + Global_s[i].time + ':' + Global_s[i].count_time;
             f.WriteLine(s);
         }
-        if(f.Close()!=0){
-          alert("写入成功");
-          location.reload();
+        if (f.Close() != 0) {
+            alert("更新成功");
+            location.reload();
         }
     }
     /*
-    *统计缴费情况
-    */
-    function count(){
-      var fso,f;
-      fso = new ActiveXObject("Scripting.FileSystemObject");
-      f = fso.OpenTextFile('',8,true);
-      f.Close();
-    }
-
-
+     *初始化数据
+     */
 </script>
 
 <body>
     <script>
-        var Global_s = readFile('12.txt');
+        var Global_s = readFile('jiaotongpiaotongji.txt');
         readnum_show(Global_s);
     </script>
 </body>
