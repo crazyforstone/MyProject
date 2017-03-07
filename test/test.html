@@ -1,34 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <title></title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/style.css" rel="stylesheet">
-</head>
-
-<body>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
     <script>
-        function CloseWebPage() {
-            if (navigator.userAgent.indexOf("MSIE") > 0) {
-                if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
-                    window.opener = null;
-                    window.close();
-                } else {
-                    window.open('', '_top');
-                    window.top.close();
-                }
-            } else if (navigator.userAgent.indexOf("Firefox") > 0) {
-                window.location.href = 'about:blank ';
-            } else {
-                window.opener = null;
-                window.open('', '_self', '');
-                window.close();
-            }
-        }
+    function test(){
+    alert("111111111");
+    }
     </script>
-    <a href="javascript:CloseWebPage();">Close   Window</a>
-</body>
-
+    <body>
+    <a href="javascript:void(0)" onclick="test()">asd</a>
+    <a href="#" onclick="test()" style="float:right" >打印</a>
+    </body>
 </html>
